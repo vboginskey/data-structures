@@ -16,7 +16,15 @@ define([
   mocha.setup('bdd');
   var expect = chai.expect;
 
-  describe("stack", function() {
+  var bunchaStacks = function(howMany) {
+    for (var i = 0; i < howMany; i++) {
+      new Stack();
+    }
+  };
+
+  describe("stack", bunchaStacks(1e6));
+
+  /*describe("stack", function() {
 
     var stack;
     var instantiator = variant === 'pseudoclassical' ? Stack : makeStack;
@@ -24,8 +32,14 @@ define([
 
     beforeEach(function(){
       if(variant === 'pseudoclassical'){
+        for (var i = 0; i < 1e8; i++) {
+          new instantiator();
+        }
         stack = new instantiator();
       } else {
+        for (var i = 0; i < 1e5; i++) {
+          instantiator();
+        }
         stack = instantiator();
       }
     });
@@ -163,4 +177,5 @@ define([
 
 
   window.mochaPhantomJS ? mochaPhantomJS.run() : mocha.run();
+  */
 });
