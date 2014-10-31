@@ -52,10 +52,21 @@ describe('tree', function() {
     tree.addChild(5);
     tree.children[0].addChild(6);
     var prunedTree = tree.children[0].removeFromParent();
-    expect(tree.children[0]).to.equal(null);
+    expect(tree.children[0]).to.equal(undefined);
     expect(tree.value).to.equal(1);
     expect(prunedTree.parent).to.equal(null);
-    expect(prunedTree.value).to.equal(6);
+    expect(prunedTree.value).to.equal(5);
+  });
+
+  it('EXTRA: should run callback on every node in the tree', function() {
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[0].addChild(8);
+    var array = [];
+    var func = function(value){ array.push(value); };
+    tree.traverse(func);
+    expect(array).to.eql([1, 5, 7, 8, 6]);
   });
 
 

@@ -31,6 +31,20 @@ treeMethods.contains = function(target){
   return found;
 };
 
+treeMethods.removeFromParent = function() {
+  this.parent.children = _.without(this.parent.children, this);
+  this.parent = null;
+  return this;
+};
+
+treeMethods.traverse = function(callback) {
+  callback(this.value);
+  _.each(this.children, function(child) {
+    child.traverse(callback);
+  });
+
+};
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
