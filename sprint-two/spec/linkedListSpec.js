@@ -51,5 +51,28 @@ describe('linkedList', function() {
     expect(linkedList.contains(4)).to.equal(false);
   });
 
+  it('EXTRA: should have methods named "addToHead" and "removeTail"', function() {
+    expect(linkedList.addToHead).to.be.a("function");
+    expect(linkedList.removeTail).to.be.a("function");
+  });
+
+  it('EXTRA: should have a previous property', function() {
+    linkedList.addToTail(4);
+    linkedList.addToTail(5);
+    expect(linkedList.tail.previous.value).to.equal(4);
+  });
+
+  it('EXTRA: should add the head to the list when addToHead is called', function() {
+    linkedList.addToTail(4);
+    linkedList.addToHead(5);
+    expect(linkedList.head.value).to.equal(5);
+  });
+
+  it('EXTRA: should remove the value of the former tail when removeTail is called', function() {
+    linkedList.addToTail(4);
+    linkedList.addToTail(5);
+    expect(linkedList.removeTail()).to.equal(5);
+  });
+
   // add more tests here to test the functionality of linkedList
 });
