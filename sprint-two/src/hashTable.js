@@ -4,34 +4,38 @@ var HashTable = function(){
   this._storage = makeLimitedArray(this._limit);
 };
 
-HashTable.prototype.insert = function(k, v){
-  var _grow = function(hashTable) {
-    hashTable._limit *= 2;
-    var tempStorage = makeLimitedArray(hashTable._limit);
+HashTable.prototype._rebuildHashTable = function() {
+  var tempStorage = makeLimitedArray(this._limit);
 
-    hashTable._storage.each(function(linkedList) {
-      var k, v;
-      if (linkedList === undefined) { debugger; }
-      while (k = linkedList.removeHead()) {
-        v = linkedList.removeHead();
-        var i = getIndexBelowMaxForKey(k, hashTable._limit);
+  this._storage.each(function(linkedList) {
+    if (linkedList) {
+      var linkedListValue, k, v;
+
+      while (linkedListValue = linkedList.removeHead()) {
+        k = linkedListValue[0];
+        v = linkedListValue[1];
+
+        var i = getIndexBelowMaxForKey(k, this._limit);
         var tempValue = makeLinkedList();
-        tempValue.addToTail(k);
-        tempValue.addToTail(v);
+        tempValue.addToTail([k, v]);
         tempStorage.set(i, tempValue);
       }
-    });
-    hashTable._storage = tempStorage;
-  };
+    }
+  });
+  this._storage = tempStorage;
+};
 
+HashTable.prototype.insert = function(k, v){
   this._size++;
-  if (this._size > 0.75 * this._limit) { _grow(this); }
+  if (this._size > 0.75 * this._limit) {
+    this._limit *= 2;
+    this._rebuildHashTable();
+  }
 
   var i = getIndexBelowMaxForKey(k, this._limit);
 
   var tableValue = this._storage.get(i) || makeLinkedList();
-  tableValue.addToTail(k);
-  tableValue.addToTail(v);
+  tableValue.addToTail([k,v]);
   this._storage.set(i, tableValue);
 };
 
@@ -39,23 +43,25 @@ HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
 
   var tableValue = this._storage.get(i);
-  if (!tableValue) {
-    return null;
-  }
+  if (!tableValue) { return null; }
+
   var listValue = tableValue.removeHead();
 
-  while (listValue !== k) {
+  while (listValue && listValue[0] !== k) {
     listValue = tableValue.removeHead();
   }
 
-  return tableValue.removeHead();
-
+  return listValue[1];
 };
 
 HashTable.prototype.remove = function(k){
+  this._size--;
+  if (this._size < 0.25 * this._limit) {
+    this._limit /= 2;
+    this._rebuildHashTable();
+  }
   var i = getIndexBelowMaxForKey(k, this._limit);
   this._storage.set(i, null);
-  this._size--;
 };
 
 
