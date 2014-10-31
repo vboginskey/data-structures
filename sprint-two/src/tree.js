@@ -2,17 +2,17 @@ var makeTree = function(value){
   var newTree = {};
   newTree.value = value;
   newTree.children = [];
+  newTree.parent = null;
   _.extend(newTree, treeMethods);
   return newTree;
 };
 
-
-
-
 var treeMethods = {};
 
 treeMethods.addChild = function(value){
-  this.children.push(makeTree(value));
+  var newTree = makeTree(value);
+  newTree.parent = this;
+  this.children.push(newTree);
 };
 
 treeMethods.contains = function(target){

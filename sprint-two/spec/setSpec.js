@@ -24,7 +24,7 @@ describe('set', function() {
     expect(set.contains("Mel Gibson")).to.equal(false);
   });
 
-  it('should store an item of any type', function(){
+  it('EXTRA: should store an item of any type', function(){
     set.add(5);
     set.add(true);
     set.add(null);

@@ -41,4 +41,13 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(true);
   });
 
+  it('EXTRA: should set parent property on children', function() {
+    tree.addChild(5);
+    tree.children[0].addChild(6);
+    expect(tree.children[0].children[0].parent.value).to.equal(5);
+    expect(tree.parent).to.equal(null);
+  });
+
+
+
 });
