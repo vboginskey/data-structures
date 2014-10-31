@@ -24,4 +24,19 @@ describe('set', function() {
     expect(set.contains("Mel Gibson")).to.equal(false);
   });
 
+  it('should store an item of any type', function(){
+    set.add(5);
+    set.add(true);
+    set.add(null);
+    set.add(function() { alert('hi'); });
+    set.add(undefined);
+    set.add({ a: 5 });
+    expect(set.contains(5)).to.equal(true);
+    expect(set.contains(true)).to.equal(true);
+    expect(set.contains(null)).to.equal(true);
+    expect(set.contains(function() { alert('hi'); })).to.equal(true);
+    expect(set.contains(undefined)).to.equal(true);
+    expect(set.contains({a:5})).to.equal(true);
+  });
+
 });
