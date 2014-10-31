@@ -37,6 +37,14 @@ bstMethods.depthFirstLog = function(callback) {
   if (this.right) { this.right.depthFirstLog(callback); }
 };
 
+bstMethods.breadthFirstLog = function(callback, child) {
+  if (!child) { callback(this.value); }
+  if (this.left) { callback(this.left.value); }
+  if (this.right) { callback(this.right.value); }
+  if (this.left) { this.left.breadthFirstLog(callback, true); }
+  if (this.right) { this.right.breadthFirstLog(callback, true); }
+};
+
 
 
 /*
