@@ -1,45 +1,31 @@
 var makeBinarySearchTree = function(value){
   var newTree = Object.create(bstMethods);
+
   newTree.left = null;
   newTree.right = null;
   newTree.value = value;
+
   return newTree;
 };
 
 var bstMethods = {};
 
-bstMethods.insert = function(value) {
 
-  // var _insert = function(val, numOfCalls) {
-  //   var direction = val < this.value ? 'left' : 'right';
-
-  //   if (this[direction]) {
-  //     numOfCalls = _insert.call(this[direction], val, numOfCalls);
-  //     if (numOfCalls > this[direction].maxDepth) {
-  //       this[direction].maxDepth = numOfCalls;
-  //     } else {
-  //       this[direction].minDepth = numOfCalls;
-  //     }
-  //   } else {
-  //     this[direction] = makeBinarySearchTree(val);
-  //   }
-  //   return ++numOfCalls;
-  // };
-  // var callDepth = _insert.call(this, value, 0);
-  // if (callDepth > this.maxDepth) {
-  //   this.maxDepth = callDepth;
-  // } else {
-  //   this.minDepth = callDepth;
-  // }
+bstMethods.insert = function(value, enableRebalance) {
   var direction = value < this.value ? 'left' : 'right';
 
   if (this[direction]) {
-    this[direction].insert(value);
+    if (enableRebalance) {
+      this[direction] = this[direction].insert(value, enableRebalance);
+    } else {
+      this[direction].insert(value, enableRebalance);
+    }
   } else {
     this[direction] = makeBinarySearchTree(value);
   }
-
-
+  if (enableRebalance) {
+    return this._rebalance();
+  }
 };
 
 bstMethods.contains = function(value) {
@@ -67,6 +53,23 @@ bstMethods.breadthFirstLog = function(callback, child) {
   if (this.right) { this.right.breadthFirstLog(callback, true); }
 };
 
+bstMethods._findDepth = function(depth) {
+  depth = depth || 0;
+  depth++;
+
+  if (this.left) { var leftDepth = this.left._findDepth(depth); }
+  if (this.right) { var rightDepth = this.right._findDepth(depth); }
+  if (leftDepth && rightDepth) {
+    return leftDepth > rightDepth ? leftDepth : rightDepth;
+  } else if (leftDepth) {
+    return leftDepth;
+  } else if (rightDepth) {
+    return rightDepth;
+  } else {
+    return depth;
+  }
+};
+
 bstMethods._rotate = function(direction) {
   var pivot;
   var root = this;
@@ -82,11 +85,37 @@ bstMethods._rotate = function(direction) {
   return pivot;
 };
 
+bstMethods._rebalance = function() {
+  var root = this;
+
+  var leftDepth = root.left ? root.left._findDepth() : 0;
+  var rightDepth = root.right ? root.right._findDepth() : 0;
+
+  if (leftDepth > rightDepth) {
+    var leftChildLeftDepth = root.left.left ? root.left.left._findDepth() : 0;
+    var leftChildRightDepth = root.left.right ? root.left.right._findDepth() : 0;
+
+    if (leftChildLeftDepth > leftChildRightDepth) {
+      root = root._rotate('right');
+    } else if (leftChildLeftDepth < leftChildRightDepth){
+      root.left = root.left._rotate('left');
+      root = root._rotate('right');
+    }
+  } else if (leftDepth < rightDepth) {
+    var rightChildLeftDepth = root.right.left ? root.right.left._findDepth() : 0;
+    var rightChildRightDepth = root.right.right ? root.right.right._findDepth() : 0;
+
+    if (rightChildLeftDepth < rightChildRightDepth) {
+      root = root._rotate('left');
+    } else if (rightChildLeftDepth > rightChildRightDepth) {
+      root.right = root.right._rotate('right');
+      root = root._rotate('left');
+    }
+  }
+  return root;
+};
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
-
-
-
-
 

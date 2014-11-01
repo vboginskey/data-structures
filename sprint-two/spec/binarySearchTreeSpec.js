@@ -70,4 +70,19 @@ describe('binarySearchTree', function() {
     expect(array).to.eql([3,2,5,4,7]);
   });
 
+  it('MEGAEXTRA: should rebalance tree', function() {
+    var bst = makeBinarySearchTree(50);
+    bst = bst.insert(17, true);
+    bst = bst.insert(76, true);
+    bst = bst.insert(9, true);
+    bst = bst.insert(23, true);
+    bst = bst.insert(54, true);
+    bst = bst.insert(14, true);
+    bst = bst.insert(19, true);
+    bst = bst.insert(72, true);
+    bst = bst.insert(12, true);
+    bst = bst.insert(67, true);
+    console.log(bst);
+  });
+
 });
