@@ -3,13 +3,34 @@ var makeBinarySearchTree = function(value){
   newTree.left = null;
   newTree.right = null;
   newTree.value = value;
-
   return newTree;
 };
 
 var bstMethods = {};
 
 bstMethods.insert = function(value) {
+
+  // var _insert = function(val, numOfCalls) {
+  //   var direction = val < this.value ? 'left' : 'right';
+
+  //   if (this[direction]) {
+  //     numOfCalls = _insert.call(this[direction], val, numOfCalls);
+  //     if (numOfCalls > this[direction].maxDepth) {
+  //       this[direction].maxDepth = numOfCalls;
+  //     } else {
+  //       this[direction].minDepth = numOfCalls;
+  //     }
+  //   } else {
+  //     this[direction] = makeBinarySearchTree(val);
+  //   }
+  //   return ++numOfCalls;
+  // };
+  // var callDepth = _insert.call(this, value, 0);
+  // if (callDepth > this.maxDepth) {
+  //   this.maxDepth = callDepth;
+  // } else {
+  //   this.minDepth = callDepth;
+  // }
   var direction = value < this.value ? 'left' : 'right';
 
   if (this[direction]) {
@@ -17,6 +38,8 @@ bstMethods.insert = function(value) {
   } else {
     this[direction] = makeBinarySearchTree(value);
   }
+
+
 };
 
 bstMethods.contains = function(value) {
