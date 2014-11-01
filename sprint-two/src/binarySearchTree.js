@@ -3,22 +3,19 @@ var makeBinarySearchTree = function(value){
   newTree.left = null;
   newTree.right = null;
   newTree.value = value;
-  newTree.depth = 0;
 
   return newTree;
 };
 
 var bstMethods = {};
 
-bstMethods.insert = function(value, thisDepth) {
-  thisDepth = thisDepth || 0;
+bstMethods.insert = function(value) {
   var direction = value < this.value ? 'left' : 'right';
 
   if (this[direction]) {
-    this[direction].insert(value, this.depth + 1);
+    this[direction].insert(value);
   } else {
     this[direction] = makeBinarySearchTree(value);
-    this[direction].depth = thisDepth + 1;
   }
 };
 
@@ -37,7 +34,6 @@ bstMethods.depthFirstLog = function(callback) {
   callback(this.value);
   if (this.left) { this.left.depthFirstLog(callback); }
   if (this.right) { this.right.depthFirstLog(callback); }
-  // can't go deeper
 };
 
 bstMethods.breadthFirstLog = function(callback, child) {

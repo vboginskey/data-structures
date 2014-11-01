@@ -51,9 +51,11 @@ describe('binarySearchTree', function() {
     binarySearchTree.insert(7);
     binarySearchTree.insert(6);
     binarySearchTree.insert(8);
+    binarySearchTree.insert(0);
+    binarySearchTree.insert(9);
     binarySearchTree.breadthFirstLog(func);
     // console.log(array);
-    expect(array).to.eql([5,2,7,1,3,6,8]);
+    expect(array).to.eql([5,2,7,1,3,6,8,0,9]);
   });
 
   it('EXTRA: should rotate tree', function() {
@@ -67,20 +69,5 @@ describe('binarySearchTree', function() {
     binarySearchTree.breadthFirstLog(func);
     expect(array).to.eql([3,2,5,4,7]);
   });
-
-  it('EXTRA: should correctly set depths', function() {
-    binarySearchTree.insert(2);
-    binarySearchTree.insert(7);
-    binarySearchTree.insert(1);
-    binarySearchTree.insert(3);
-    binarySearchTree.insert(8);
-    expect(binarySearchTree.depth).to.equal(0);
-    expect(binarySearchTree.left.depth).to.equal(1);
-    expect(binarySearchTree.right.depth).to.equal(1);
-    expect(binarySearchTree.right.right.depth).to.equal(2);
-    expect(binarySearchTree.left.left.depth).to.equal(2);
-    expect(binarySearchTree.left.right.depth).to.equal(2);
-  });
-
 
 });
