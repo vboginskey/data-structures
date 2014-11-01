@@ -55,4 +55,18 @@ describe('binarySearchTree', function() {
     // console.log(array);
     expect(array).to.eql([5,2,7,1,3,6,8]);
   });
+
+  it('EXTRA: should rotate tree', function() {
+    var array = [];
+    var func = function(value){ array.push(value); };
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(4);
+    binarySearchTree = binarySearchTree._rotate('right');
+    binarySearchTree.breadthFirstLog(func);
+    expect(array).to.eql([3,2,5,4,7]);
+  });
+
+
 });

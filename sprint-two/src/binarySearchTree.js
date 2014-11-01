@@ -3,6 +3,7 @@ var makeBinarySearchTree = function(value){
   newTree.left = null;
   newTree.right = null;
   newTree.value = value;
+  // newTree.height = 0;
 
   return newTree;
 };
@@ -45,8 +46,26 @@ bstMethods.breadthFirstLog = function(callback, child) {
   if (this.right) { this.right.breadthFirstLog(callback, true); }
 };
 
-
+bstMethods._rotate = function(direction) {
+  var pivot;
+  var root = this;
+  if (direction === 'left') {
+    pivot = root.right;
+    root.right = pivot.left;
+    pivot.left = root;
+  } else {
+    pivot = root.left;
+    root.left = pivot.right;
+    pivot.right = root;
+  }
+  return pivot;
+};
 
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+
+
+
+
+
