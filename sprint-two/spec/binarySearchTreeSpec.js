@@ -68,5 +68,19 @@ describe('binarySearchTree', function() {
     expect(array).to.eql([3,2,5,4,7]);
   });
 
+  it('EXTRA: should correctly set depths', function() {
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(8);
+    expect(binarySearchTree.depth).to.equal(0);
+    expect(binarySearchTree.left.depth).to.equal(1);
+    expect(binarySearchTree.right.depth).to.equal(1);
+    expect(binarySearchTree.right.right.depth).to.equal(2);
+    expect(binarySearchTree.left.left.depth).to.equal(2);
+    expect(binarySearchTree.left.right.depth).to.equal(2);
+  });
+
 
 });
