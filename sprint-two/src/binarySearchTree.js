@@ -45,12 +45,22 @@ bstMethods.depthFirstLog = function(callback) {
   if (this.right) { this.right.depthFirstLog(callback); }
 };
 
-bstMethods.breadthFirstLog = function(callback, child) {
-  if (!child) { callback(this.value); }
-  if (this.left) { callback(this.left.value); }
-  if (this.right) { callback(this.right.value); }
-  if (this.left) { this.left.breadthFirstLog(callback, true); }
-  if (this.right) { this.right.breadthFirstLog(callback, true); }
+bstMethods.breadthFirstLog = function(callback) {
+
+  var walkTree = function() {
+    var curNode;
+    if (curNode = queue.dequeue()) {
+      callback(curNode.value);
+      if (curNode.left) { queue.enqueue(curNode.left); }
+      if (curNode.right) { queue.enqueue(curNode.right); }
+      walkTree();
+    }
+  };
+
+  var queue = new Queue();
+  queue.enqueue(this);
+  walkTree();
+
 };
 
 bstMethods._findDepth = function(depth) {
@@ -118,4 +128,28 @@ bstMethods._rebalance = function() {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+
+var Queue = function() {
+  this.storage = {};
+  this.back = 0;
+  this.front = 0;
+};
+
+Queue.prototype.enqueue = function(value) {
+  this.storage[this.back] = value;
+  this.back++;
+};
+
+Queue.prototype.dequeue = function() {
+  if (this.back - this.front > 0) {
+    var value = this.storage[this.front];
+    delete this.storage[this.front];
+    this.front++;
+    return value;
+  }
+};
+
+Queue.prototype.size = function() {
+  return this.back - this.front;
+};
 
